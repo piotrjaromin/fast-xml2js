@@ -7,7 +7,7 @@ const { parseString } = require('../index');
 
 const simpleXml = readFileSync('./test/fixtures/simple.xml', 'utf-8').toString();
 
-describe('parseXml should', () => {
+describe('parseString should', () => {
 
     it('correctly parse xml', done => {
         parseString(simpleXml, (err, data) => {
