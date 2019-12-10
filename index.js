@@ -21,5 +21,33 @@ function parseString(xml, cb) {
     });
 };
 
-exports.parseString = parseString;
+/**
+ * Parses an XML string into a JS object
+ * @param  {string} xmlString string representation of xml
+ * @returns {Promise<Object>} resolved xml object
+ */
+function parseXmlString(xmlString) {
+    return new Promise((resolve, reject) => {
+        if (xmlString.length == 0) {
+            return reject(new Error('Empty string is not valid XML'));
+        }
+
+        fastxml2js.parseString(xmlString, (err, data) => {
+            if (err) {
+               return reject(toErrorType(err));
+            }
+
+            return resolve(data);
+        });
+    });
+}
+
+function toErrorType(err) {
+    return typeof err === 'string' ? new Error(err) : err;
+}
+
+module.exports = {
+    parseXmlString,
+    parseString
+};
 
