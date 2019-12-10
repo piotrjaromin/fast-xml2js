@@ -32,11 +32,6 @@ Local<String> str(Isolate* isolate, const char *value) {
   ).ToLocalChecked();
 }
 
-
-Local<String> strNode(Isolate* isolate, xml_node<> *node) {
-  return str(isolate, node->name());
-}
-
 void ParseString(const FunctionCallbackInfo<Value>& args) {
   Isolate* isolate = args.GetIsolate();
 
@@ -107,32 +102,8 @@ void ParseString(const FunctionCallbackInfo<Value>& args) {
         if(node != doc.first_node())
         {
 
-          bool hasProperty = obj->HasOwnProperty(context, strNode(isolate, node)).FromMaybe(false);
+          bool hasProperty = obj->HasOwnProperty(context, str(isolate, node->name())).FromMaybe(false);
 
-          if(hasProperty)
-          {
-            lst = Local<Array>::Cast(Nan::Get(obj, strNode(isolate, node)).ToLocalChecked());
-            Nan::Set(lst, str(isolate, "length"), Number::New(isolate, lst->Length() + 1));
-          }
-          else
-          {
-            lst = Array::New(isolate, 1);
-            Nan::Set(obj, strNode(isolate, node), lst);
-          }
-
-          Nan::Set(lst, lst->Length()-1, newObj);
-        }
-        else
-        {
-          Nan::Set(obj, strNode(isolate, node), newObj);
-        }
-      }
-      else
-      {
-        Local<Array> lst;
-        if(node != doc.first_node())
-        {
-          bool hasProperty = obj->HasOwnProperty(context,  strNode(isolate, node)).FromMaybe(false);
           if(hasProperty)
           {
             lst = Local<Array>::Cast(Nan::Get(obj, str(isolate, node->name())).ToLocalChecked());
@@ -141,7 +112,31 @@ void ParseString(const FunctionCallbackInfo<Value>& args) {
           else
           {
             lst = Array::New(isolate, 1);
-            Nan::Set(obj, strNode(isolate, node), lst);
+            Nan::Set(obj, str(isolate, node->name()), lst);
+          }
+
+          Nan::Set(lst, lst->Length()-1, newObj);
+        }
+        else
+        {
+          Nan::Set(obj, str(isolate, node->name()), newObj);
+        }
+      }
+      else
+      {
+        Local<Array> lst;
+        if(node != doc.first_node())
+        {
+          bool hasProperty = obj->HasOwnProperty(context,  str(isolate, node->name())).FromMaybe(false);
+          if(hasProperty)
+          {
+            lst = Local<Array>::Cast(Nan::Get(obj, str(isolate, node->name())).ToLocalChecked());
+            Nan::Set(lst, str(isolate, "length"), Number::New(isolate, lst->Length() + 1));
+          }
+          else
+          {
+            lst = Array::New(isolate, 1);
+            Nan::Set(obj, str(isolate, node->name()), lst);
           }
 
           if(node->first_attribute()) {
