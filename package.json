@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "node-gyp configure && node-gyp build",
-    "test": "mocha --recursive test"
+    "test": "mocha --recursive test",
+    "bench": "node benchmark/benchmark.js"
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,12 @@
   "gypfile": true,
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "benchmark": "^2.1.4",
+    "microtime": "^3.0.0"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "dependencies": {}
 }
