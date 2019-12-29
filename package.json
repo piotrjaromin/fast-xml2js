@@ -4,7 +4,9 @@
   "description": "Fork of cmrigney/fast-xml2js. In-place replacement for xml2js parseString. This is about 20x-30x faster and makes use of the rapidxml C++ library.",
   "main": "index.js",
   "scripts": {
-    "preinstall": "node-gyp configure && node-gyp build",
+    "build": "node-gyp configure && node-gyp build",
+    "build-debug": "node-gyp configure --debug && node-gyp build",
+    "compile": "node-gyp rebuild",
     "test": "mocha --recursive test",
     "bench": "node benchmark/benchmark.js"
   },
@@ -23,10 +25,14 @@
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
     "benchmark": "^2.1.4",
-    "microtime": "^3.0.0"
+    "microtime": "^3.0.0",
+    "xml2js": "^0.4.22"
   },
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {}
+  "dependencies": {
+    "nan": "^2.14.0",
+    "node-gyp": "^6.0.1"
+  }
 }

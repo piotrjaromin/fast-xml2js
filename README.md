@@ -19,8 +19,6 @@ parseString('<some_xml>', function(err, result) {
 });
 ```
 
-Errors returned by this function are `string` instances.
-
 #### parseXmlString
 
 ```js
@@ -29,3 +27,8 @@ parseXmlString('<some_xml>').then(result => console.log(obj));
 ```
 
 Errors returned by this function are `Error` instances.
+
+### Changelog
+
+Change log can be found [here](CHANGELOG.md)
+Errors returned by this function are `string` instances.

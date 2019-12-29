@@ -4,7 +4,8 @@ const { readFileSync } = require('fs');
 const Benchmark = require('benchmark');
 
 const { parseXmlString, parseString } = require('../index');
-const simpleXml = readFileSync('./test/fixtures/simple.xml', 'utf-8').toString();
+const { parseStringPromise: originalParseString } = require('xml2js');
+const simpleXml = readFileSync('./test/fixtures/big.xml', 'utf-8').toString();
 
 const suite = new Benchmark.Suite;
 
@@ -16,7 +17,14 @@ suite.add('parseXmlString#simple', async () => {
         resolve();
     }));
 })
+.add('originalParseString#simple', async () => {
+    await originalParseString(simpleXml)
+})
 .on('cycle', function(event) {
   console.log(String(event.target));
 })
+.on('complete', function() {
+    console.log('Fastest is ' + this.filter('fastest').map('name'));
+})
 .run({ 'async': true });
+
